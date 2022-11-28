@@ -12,6 +12,7 @@ import com.example.dogapi.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -37,6 +38,13 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         return Retrofit.Builder()
             .baseUrl("https://dog.ceo/api/breed/")
             .addConverterFactory(GsonConverterFactory.create())
+            .client(getClient())
+            .build()
+    }
+
+    private fun getClient(): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(HeaderInterceptor())
             .build()
     }
 
